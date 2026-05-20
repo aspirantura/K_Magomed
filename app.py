@@ -1,5 +1,4 @@
 import streamlit as st
-import graphviz
 
 # Настройки страницы
 st.set_page_config(
@@ -137,42 +136,29 @@ with col2:
     else:
         st.info("Введите параметры пациента слева и нажмите кнопку «Определить тактику лечения»")
 
-# Блок-схема алгоритма
+# Краткое описание логики алгоритма
 st.markdown("---")
-st.subheader("Блок-схема алгоритма")
+with st.expander("Логика алгоритма выбора метода"):
+    st.markdown("""
+    **Показания к компрессионно-дистракционному остеогенезу (ДО):**
+    - планируемое выдвижение верхней челюсти ≥ 10 мм;
+    - выраженные рубцовые изменения мягких тканей;
+    - пограничная или сниженная нёбно-глоточная функция;
+    - значительный сагиттальный дефицит (SNA ≤ 72°, ANB ≤ -7°);
+    - двусторонняя расщелина в сочетании с другими факторами риска.
 
-graph = graphviz.Digraph()
-graph.attr(rankdir='TB', size='10,8', dpi='150')
-graph.attr('node', fontname='Arial', fontsize='11')
+    **Показания к ортогнатической операции по типу Le Fort I:**
+    - планируемое выдвижение ≤ 8 мм;
+    - SNA ≥ 73°;
+    - ANB ≥ -5°;
+    - удовлетворительная нёбно-глоточная функция;
+    - отсутствие выраженного рубцевания мягких тканей.
 
-graph.node('A', 'Пациент с верхней ретрогнатией\nпри расщелине губы и нёба',
-           shape='box', style='rounded,filled', fillcolor='#E3F2FD')
-graph.node('B', 'Комплексное обследование',
-           shape='box', style='filled', fillcolor='#F5F5F5')
-graph.node('D', 'Выдвижение ≥ 10 мм?',
-           shape='diamond', style='filled', fillcolor='#FFF9C4')
-graph.node('E', 'Компрессионно-\nдистракционный остеогенез',
-           shape='box', style='rounded,filled', fillcolor='#C8E6C9')
-graph.node('F', 'Выдвижение ≤ 8 мм\nи критерии Le Fort I?',
-           shape='diamond', style='filled', fillcolor='#FFF9C4')
-graph.node('I', 'Ортогнатическая операция\nLe Fort I',
-           shape='box', style='rounded,filled', fillcolor='#BBDEFB')
-graph.node('J', 'Оценка факторов риска',
-           shape='box', style='filled', fillcolor='#FFE0B2')
-graph.node('L', 'Несколько факторов\nриска?',
-           shape='diamond', style='filled', fillcolor='#FFF9C4')
-
-graph.edge('A', 'B')
-graph.edge('B', 'D')
-graph.edge('D', 'E', label='Да')
-graph.edge('D', 'F', label='Нет')
-graph.edge('F', 'I', label='Да')
-graph.edge('F', 'J', label='Нет')
-graph.edge('J', 'L')
-graph.edge('L', 'E', label='Да')
-graph.edge('L', 'I', label='Нет')
-
-st.graphviz_chart(graph, use_container_width=True)
+    **Промежуточная клиническая зона (8–10 мм):**
+    при наличии 3 и более факторов риска предпочтение отдаётся дистракционному 
+    остеогенезу; в иных случаях возможно выполнение ортогнатической операции 
+    по типу Le Fort I.
+    """)
 
 # Подпись
 st.markdown("---")
